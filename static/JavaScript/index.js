@@ -28,6 +28,12 @@ function hideLoadingScreen() {
     clearTimeout(loadingTimeout);
 }
 
+window.onload = function() {
+    toggleLModal();
+    toggleIModal();
+    colour = 'black';
+};
+
 
 function selectRed(){
     //Bicycle Crossing
@@ -568,7 +574,9 @@ function runCalculation(event) {
     var distanceElement = document.getElementById("distanceFromTarget");
     if (distance > 20000) {
         distanceElement.innerHTML = 'Please Select Destination!';
-    } else {
+    } else if (distance <= 15){
+        distanceElement.innerHTML = '';
+    }else{
     // Display the actual distance
         distanceElement.innerHTML = Math.floor(distance) + "m to destination!";
     }
@@ -576,25 +584,17 @@ function runCalculation(event) {
 
     if (colour != 'black') {
         switch (colour) {
-            case 'white':
-                {
-                    toggleLModal();
-                    toggleIModal();
-                    colour = 'black';
-                }
-                break;
             case 'red':
                 if (distance > 1000000){
                     hideRed();
                     toggleEModal();
-                } else if (distance > 10000){
+                } else if (distance > 3000){
                     hideRed();
                     toggleOModal();
-                }else if (distance <= 10000){
+                }else if (distance <= 3000){
                     isViewed = false;
                     showRed();
                     toggleModalRed120();
-                    toggleWModal();
                     colour = 'red2';
                     break;
                 }
@@ -620,11 +620,10 @@ function runCalculation(event) {
                 if (distance > 1000000){
                     hideGreen();
                     toggleEModal();
-                } else if (distance > 10000){
+                } else if (distance > 3000){
                     hideGreen();
                     toggleOModal();
-                }else if (distance <= 10000){
-                    toggleWModal();
+                }else if (distance <= 3000){
                     showGreen();
                     toggleModalGreen120();
                     isViewed = false;
@@ -653,11 +652,10 @@ function runCalculation(event) {
                 if (distance > 1000000){
                     hideYellow();
                     toggleEModal();
-                } else if (distance > 10000){
+                } else if (distance > 3000){
                     hideYellow();
                     toggleOModal();
-                }else if (distance <= 10000){
-                    toggleWModal();
+                }else if (distance <= 3000){
                     showYellow();
                     toggleModalYellow120();
                     colour = 'yellow2';
@@ -686,11 +684,10 @@ function runCalculation(event) {
                 if (distance > 1000000){
                     hideBlue();
                     toggleEModal();
-                } else if (distance > 10000){
+                } else if (distance > 3000){
                     hideBlue();
                     toggleOModal();
-                }else if (distance <= 10000){
-                    toggleWModal();
+                }else if (distance <= 3000){
                     showBlue();
                     toggleModalBlue120();
                     colour = 'blue2';
@@ -719,11 +716,10 @@ function runCalculation(event) {
                 if (distance > 1000000){
                     hideOrange();
                     toggleEModal();
-                } else if (distance > 10000){
+                } else if (distance > 3000){
                     hideOrange();
                     toggleOModal();
-                }else if (distance <= 10000){
-                    toggleWModal();
+                }else if (distance <= 3000){
                     showOrange();
                     toggleModalOrange120();
                     colour = 'orange2';
@@ -752,11 +748,10 @@ function runCalculation(event) {
                 if (distance > 1000000){
                     hidePurple();
                     toggleEModal();
-                } else if (distance > 10000){
+                } else if (distance > 3000){
                     hidePurple();
                     toggleOModal();
-                }else if (distance <= 10000){
-                    toggleWModal();
+                }else if (distance <= 3000){
                     showPurple();
                     toggleModalPurple120();
                     colour = 'purple2';
@@ -800,13 +795,9 @@ function closeModalW(){
     modalW.style.display='none';
 }
 
-function closeOnClickInsideW() {
-    var modalW = document.getElementById("modalW");
-
-    modalW.addEventListener('click', function () {
-        closeModalW();
-    });
-}
+document.getElementsByClassName("closeW")[0].onclick = function () {
+    modalW.style.display = "none";
+};
 
 function toggleEModal(){
     //Get the modal
@@ -889,16 +880,6 @@ function toggleMModal(){
     modalMap = document.getElementById("modalMap");
     modalMap.style.display="block";
 }
-
-// Add an event listener to prevent the click event from propagating to the inner content
-    document.querySelector('.common-modal-content').addEventListener('click', function (event) {
-        event.stopPropagation();
-    });
-
-    // Add an event listener to close the modal when clicking anywhere outside of it
-    document.getElementById('modalMap').addEventListener('click', function () {
-        closeModal();
-    });
 
 function closeModal(){
     modalMap = document.getElementById("modalMap");
